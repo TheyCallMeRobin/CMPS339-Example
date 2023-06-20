@@ -1,8 +1,15 @@
+using CMPS339.Services.Implementations;
+using CMPS339.Services.Interfaces;
+using Microsoft.AspNetCore.Builder;
+
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 
 builder.Services.AddControllersWithViews();
+builder.Services.AddSwaggerGen();
+
+builder.Services.AddScoped<IAmusementParkService, AmusementService>();
 
 var app = builder.Build();
 
@@ -16,6 +23,17 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 app.UseRouting();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+app.UseSwaggerUI(options =>
+{
+    options.SwaggerEndpoint("/swagger/v1/swagger.json", "v1");
+    options.RoutePrefix = string.Empty;
+});
 
 
 app.MapControllerRoute(
