@@ -17,8 +17,6 @@ namespace CMPS339.Services.Implementations
             {
                connection.Open();
 
-             
-
                var parkData =  await connection.QueryAsync<Parks>("SELECT * FROM Parks WHERE Id = @Id", new { Id = 1 });
 
                parks = parkData.ToList();
